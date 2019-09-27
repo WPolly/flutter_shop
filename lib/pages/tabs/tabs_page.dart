@@ -12,6 +12,7 @@ class TabsPage extends StatefulWidget {
 class _TabsPageState extends State<TabsPage> {
   int _currentIndex = 0;
   List<Widget> _tabPages = [HomePage(), CategoryPage(), CartPage(), UserPage()];
+  PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,13 @@ class _TabsPageState extends State<TabsPage> {
       appBar: AppBar(
         title: Text("京东"),
       ),
-      body: _tabPages[_currentIndex],
+      body: PageView(
+        children: _tabPages,
+        onPageChanged: (index) {
+
+        },
+        controller: _pageController,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("首页")),
@@ -32,7 +39,8 @@ class _TabsPageState extends State<TabsPage> {
         type: BottomNavigationBarType.fixed,
         onTap: (index) {
           setState(() {
-            _currentIndex = index;
+            this._currentIndex = index;
+            _pageController.jumpToPage(index);
           });
         },
         currentIndex: _currentIndex,
